@@ -13,12 +13,6 @@ class CommentTableSeeder extends Seeder
      */
     public function run()
     {
-        // $c = new Comment;
-        // $c->user_id = 1;
-        // $c->post_id = 1;
-        // $c->text = "I agree with this post!";
-        // $c->date_posted = "2010-06-19 18:40:51";
-        // $c->save();
         $comments = Comment::factory()->count(100)->create();
     }
 }
