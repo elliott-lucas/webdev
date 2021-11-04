@@ -15,7 +15,7 @@ class PostFactory extends Factory
     {
         return [
             'user_id' => $this->faker->numberBetween(1,100),
-            'text' => $this->faker->realText($maxNbChars = 200, $indexSize = 2),
+            'text' => $this->faker->realText($maxNbChars = 200),
             'date_posted' => $this->faker->dateTimeBetween('-1 week', '+1 week')
         ];
     }
