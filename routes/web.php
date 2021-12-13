@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +28,4 @@ Route::get('/icecream/{flavour}', function ($flavour) {
     return "I like ".$flavour." ice cream";
 });
 
-Route::get('/chocolate', function () {
-    return "I like chocolate";
-});
-
-Route::redirect('/chocolate', '/icecream');
+Route::get('/post/{id}', [PostController::class, 'show']);
