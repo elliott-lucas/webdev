@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/comments', [CommentController::class, 'apiIndex'])->name('api.comments.index');
+Route::get('/comments/{id}', [CommentController::class, 'apiSpecific'])->name('api.comments.specific');
+Route::post('/comments', [CommentController::class, 'apiStore'])->name('api.comments.store');
+
+Route::get('/posts', [PostController::class, 'apiIndex'])->name('api.post.index');
+Route::get('/posts/{id}', [PostController::class, 'apiSpecific'])->name('api.post.specific');
+Route::post('/posts', [PostController::class, 'apiStore'])->name('api.post.store');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+

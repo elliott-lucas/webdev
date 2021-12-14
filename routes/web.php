@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +25,6 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/icecream/{flavour}', function ($flavour) {
-    return "I like ".$flavour." ice cream";
-});
-
-Route::get('/post/{id}', [PostController::class, 'show']);
+Route::get('/post/{id}', [PostController::class, 'show'])->middleware(['auth'])->name('/post/{id}');;
+Route::post('/comments', [CommentController::class, 'apiStore'])->name('api.comments.store');
+Route::post('/posts', [PostController::class, 'apiStore'])->name('api.post.store');
