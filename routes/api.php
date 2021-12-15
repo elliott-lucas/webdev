@@ -23,6 +23,7 @@ Route::post('/comments', [CommentController::class, 'apiStore'])->name('api.comm
 Route::get('/posts', [PostController::class, 'apiIndex'])->name('api.posts.index');
 Route::get('/posts/{id}', [PostController::class, 'apiSpecific'])->name('api.posts.specific');
 Route::post('/posts', [PostController::class, 'apiStore'])->name('api.posts.store');
+Route::post('/posts', [PostController::class, 'apiEdit'])->name('api.posts.edit');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

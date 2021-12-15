@@ -12,11 +12,14 @@
 
     <div id="root">
         <input type="text" maxlength="255" id="input" v-model="newPostText">
+        <input type="file" id="file" ref="file" @change="previewImage">
         <button @click="createPost">Post</button>
 
-        <ul> <li v-for="post in posts"> 
+        <ul> <li v-for="post in posts">
+            </br> 
             <p><b>@{{ post.user_id }}</b></p>
             <p>@{{ post.text }}</p>
+            <a :href="/post/ + post.id">View Comments</a>
             </br> 
         </li> </ul> 
     </div>
@@ -27,13 +30,24 @@
             data: {
                 posts: [],
                 newPostText: '',
+                newPostImage: '',
             },
             methods: {
                 createPost:function() {
+                    let formData = new FormData();
+
+                    formData.append('text', this.newPostText);
+
+                    if (this.newPostImage) {
+                        formData.append('image', this.newPostImage);
+                    }
+
                     axios.post("{{route('api.posts.store')}}",
-                    {
-                        text: this.newPostText,
-                    })
+                        formData,
+                        {
+                            headers: {'Content-Type': 'multipart/form-data'}
+                        }
+                    )
                     .then(response=>{
                         this.posts.push(response.data);
                         this.newPostText = '';
@@ -42,6 +56,12 @@
                     console.log(response);
                     })
                 },
+
+                previewImage(event) {
+                    this.newPostImage = event.target.files[0];
+                    console.log(this.newPostImage);
+                }
+
             },
             mounted() {
                 

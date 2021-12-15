@@ -25,10 +25,8 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/post/{id}', function () {
-    $id = Route::input('id');
-    return view('layouts.post', ['id' => $id]);
-})->middleware(['auth'])->name('/post/{id}');
+Route::get('/post/{id}', [PostController::class, 'show'])->middleware(['auth'])->name('/post/{id}');
 
 Route::post('/comments', [CommentController::class, 'apiStore'])->name('api.comments.store');
-Route::post('/posts', [PostController::class, 'apiStore'])->name('api.post.store');
+Route::post('/posts', [PostController::class, 'apiStore'])->name('api.posts.store');
+Route::post('/posts', [PostController::class, 'apiEdit'])->name('api.posts.edit');

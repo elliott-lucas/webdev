@@ -13,14 +13,22 @@
     <div id="root">
         <p><b>@{{ post.user_id }}</b></p>
         <p>@{{ post.text }}</p>
-
         </br>
+
+        <input type="text" maxlength="255" id="input" v-model="newPostText">
+        <button @click="editPost">Post</button>
+
+        <img :src="'http://localhost/storage/images/' + post.image_path" alt=""/>
+
+        <p><u>Comments</u></p>
 
         <ul> <li v-for="comment in comments"> 
             <p><b>@{{ comment.user_id }}</b></p>
             <p>@{{ comment.text }}</p>
             </br> 
         </li> </ul>
+
+        
         
         <input type="text" maxlength="255" id="input" v-model="newCommentText">
         <button @click="createComment">Post</button>
@@ -33,13 +41,14 @@
                 post: '',
                 comments: [],
                 newCommentText: '',
+                newPostText: '',
             },
             methods: {
                 createComment:function() {
                     axios.post("{{route('api.comments.store')}}",
                     {
                         text: this.newCommentText,
-                        post_id:{{ $id }}
+                        post_id: {{ $id }},
                     })
                     .then(response=>{
                         this.comments.push(response.data);
@@ -49,6 +58,22 @@
                     console.log(response);
                     })
                 },
+
+                editPost:function() {
+                    console.log(this.newPostText);
+                    axios.post("{{route('api.posts.edit')}}",
+                    {
+                        text: this.newPostText,
+                        post_id: {{ $id }},
+                    })
+                    .then(response=>{
+                        this.post.text = response.data['text']
+                        this.newCommentText = '';
+                    })
+                    .catch(response=>{
+                    console.log(response);
+                    })
+                }
             },
             mounted() {
                 
@@ -65,7 +90,6 @@
                 })
                 .catch(response=>{
                     console.log(response);
-                    console.log(this.post.user_id);
                 })
             }
 
