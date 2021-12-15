@@ -20,9 +20,9 @@ Route::get('/comments', [CommentController::class, 'apiIndex'])->name('api.comme
 Route::get('/comments/{id}', [CommentController::class, 'apiSpecific'])->name('api.comments.specific');
 Route::post('/comments', [CommentController::class, 'apiStore'])->name('api.comments.store');
 
-Route::get('/posts', [PostController::class, 'apiIndex'])->name('api.post.index');
-Route::get('/posts/{id}', [PostController::class, 'apiSpecific'])->name('api.post.specific');
-Route::post('/posts', [PostController::class, 'apiStore'])->name('api.post.store');
+Route::get('/posts', [PostController::class, 'apiIndex'])->name('api.posts.index');
+Route::get('/posts/{id}', [PostController::class, 'apiSpecific'])->name('api.posts.specific');
+Route::post('/posts', [PostController::class, 'apiStore'])->name('api.posts.store');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

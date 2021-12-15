@@ -30,7 +30,7 @@
             },
             methods: {
                 createPost:function() {
-                    axios.post("{{route('api.post.store')}}",
+                    axios.post("{{route('api.posts.store')}}",
                     {
                         text: this.newPostText,
                     })
@@ -45,7 +45,7 @@
             },
             mounted() {
                 
-                axios.get("{{route('api.post.index')}}")
+                axios.get("{{route('api.posts.index')}}")
                 .then(response=>{
                     this.posts = response.data;
                 })

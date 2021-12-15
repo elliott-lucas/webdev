@@ -18,8 +18,8 @@ class PostController extends Controller
 
     public function apiSpecific($id)
     {
-        $posts = Post::where('id', $id)->get();
-        return $posts;
+        $post = Post::where('id', $id)->first();
+        return $post;
     }
 
     public function apiStore(Request $request)
@@ -32,10 +32,10 @@ class PostController extends Controller
         return $p;
     }
 
-    public function show($id)
-    {
-        $post = Post::findOrFail($id);
+    // public function show($id)
+    // {
+    //     $post = Post::findOrFail($id);
 
-        return view('layouts.post', ['post' => $post]);
-    }
+    //     return view('layouts.post', ['post' => $post]);
+    // }
 }
