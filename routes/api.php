@@ -22,8 +22,16 @@ Route::post('/comments', [CommentController::class, 'apiStore'])->name('api.comm
 
 Route::get('/posts', [PostController::class, 'apiIndex'])->name('api.posts.index');
 Route::get('/posts/{id}', [PostController::class, 'apiSpecific'])->name('api.posts.specific');
-Route::post('/posts', [PostController::class, 'apiStore'])->name('api.posts.store');
-Route::post('/posts', [PostController::class, 'apiEdit'])->name('api.posts.edit');
+Route::post('/posts/store', [PostController::class, 'apiStore'])->name('api.posts.store');
+Route::post('/posts/edit', [PostController::class, 'apiEdit'])->name('api.posts.edit');
+
+//Route::get('/images/{filename}', [PostController::class, 'apiSpecificImage'])->name('api.images');
+
+Route::get('/images/{filename}', function() {
+    $filename = Route::input('filename');
+    $i = Storage::disk('public')->get('images/'.$filename);
+    return $i;
+})->name('api.images.specific');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

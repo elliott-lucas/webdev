@@ -15,20 +15,22 @@
         <p>@{{ post.text }}</p>
         </br>
 
-        <input type="text" maxlength="255" id="input" v-model="newPostText">
-        <button @click="editPost">Post</button>
+        <button v-if="post.user_id == {{Auth::id()}}" @click="toggleEditView">Edit</button>
 
-        <img :src="'http://localhost/storage/images/' + post.image_path" alt=""/>
+        <div v-if="post.user_id == {{Auth::id()}} && showEditView">
+            <input type="text" maxlength="500" id="input" v-model="newPostText">
+            <button @click="editPost">Save</button>
+        </div>
 
+        <img :src="'{{ route('api.images.specific', '') }}/' + post.image_path" alt=""/>
+        
         <p><u>Comments</u></p>
 
         <ul> <li v-for="comment in comments"> 
             <p><b>@{{ comment.user_id }}</b></p>
             <p>@{{ comment.text }}</p>
-            </br> 
+            </br>
         </li> </ul>
-
-        
         
         <input type="text" maxlength="255" id="input" v-model="newCommentText">
         <button @click="createComment">Post</button>
@@ -42,6 +44,7 @@
                 comments: [],
                 newCommentText: '',
                 newPostText: '',
+                showEditView: false,
             },
             methods: {
                 createComment:function() {
@@ -59,6 +62,11 @@
                     })
                 },
 
+                toggleEditView:function() {
+                    this.showEditView = !this.showEditView;
+                    this.newPostText = '';
+                },
+
                 editPost:function() {
                     console.log(this.newPostText);
                     axios.post("{{route('api.posts.edit')}}",
@@ -69,6 +77,7 @@
                     .then(response=>{
                         this.post.text = response.data['text']
                         this.newCommentText = '';
+                        this.showEditView = !this.showEditView;
                     })
                     .catch(response=>{
                     console.log(response);
@@ -83,6 +92,7 @@
                     axios.get("{{route('api.comments.specific', $id)}}")
                     .then(response=>{
                         this.comments = response.data;
+
                     })
                     .catch(response=>{
                         console.log(response);

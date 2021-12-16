@@ -60,8 +60,6 @@ class PostController extends Controller
         if ($p->user_id == Auth::id()) 
         {
             $p->text = $validated['text'];
-        } else {
-            $p->text = "LOL";
         }
 
         $p->save();

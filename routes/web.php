@@ -28,5 +28,6 @@ require __DIR__.'/auth.php';
 Route::get('/post/{id}', [PostController::class, 'show'])->middleware(['auth'])->name('/post/{id}');
 
 Route::post('/comments', [CommentController::class, 'apiStore'])->name('api.comments.store');
-Route::post('/posts', [PostController::class, 'apiStore'])->name('api.posts.store');
-Route::post('/posts', [PostController::class, 'apiEdit'])->name('api.posts.edit');
+Route::post('/posts/store', [PostController::class, 'apiStore'])->name('api.posts.store');
+Route::post('/posts/edit', [PostController::class, 'apiEdit'])->name('api.posts.edit');
+
