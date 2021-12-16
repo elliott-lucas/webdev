@@ -32,9 +32,9 @@ class PostController extends Controller
     public function apiStore(Request $request)
     {
         $validated = $request->validate([
-            'text' => 'required|max:1000',
+            'text' => 'required|max:500',
             'image' => 'nullable|mimes:jpg,png',
-            'user_id' => 'required',
+            'user_id' => 'required|exists:App\Models\User,id',
         ]);
 
         $p = new Post();
@@ -60,8 +60,8 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'text' => 'required|max:500',
-            'post_id' => 'required',
-            'user_id' => 'required',
+            'post_id' => 'required|exists:App\Models\Post,id',
+            'user_id' => 'required|exists:App\Models\User,id',
         ]);
 
         $p = Post::where('id', $validated['post_id'])->first();

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\Post;
 use App\Models\User;
 
 class CommentController extends Controller
@@ -30,8 +31,8 @@ class CommentController extends Controller
 
         $validated = $request->validate([
             'text' => 'required|max:500',
-            'post_id' => 'required',
-            'user_id' => 'required',
+            'post_id' => 'required|exists:App\Models\Post,id',
+            'user_id' => 'required|exists:App\Models\User,id',
         ]);
 
         $c = new Comment();
