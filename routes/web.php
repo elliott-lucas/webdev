@@ -16,8 +16,8 @@ use App\Http\Controllers\CommentController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -26,8 +26,3 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 Route::get('/post/{id}', [PostController::class, 'show'])->middleware(['auth'])->name('/post/{id}');
-
-Route::post('/comments', [CommentController::class, 'apiStore'])->name('api.comments.store');
-Route::post('/posts/store', [PostController::class, 'apiStore'])->name('api.posts.store');
-Route::post('/posts/edit', [PostController::class, 'apiEdit'])->name('api.posts.edit');
-

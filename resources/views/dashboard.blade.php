@@ -10,17 +10,36 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <div id="root">
-        <input type="text" maxlength="255" id="input" v-model="newPostText">
-        <input type="file" id="file" ref="file" @change="previewImage">
-        <button @click="createPost">Post</button>
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8" id="root">
+        <div class="bg-white shadow rounded p-2">
+            <p>Create a Post:</p>
+            <textarea class="w-full h-20 border-solid border-gray-500 border shadow rounded" maxlength="500" id="input" v-model="newPostText" style="resize: none;"></textarea>
+            <div class="relative py-2">
+                <button class="bg-white border-solid border-gray-500 border shadow rounded px-5 py-2" @click="createPost">Post</button>
+                <input class="absolute right-0 border-2 border-dotted border-gray-500 rounded p-2" type="file" accept="image/jpeg,image/png" id="file" ref="file" @change="previewImage">
+            </div>
+            
+        </div>
+
+        <hr class="p-1"/>
 
         <ul> <li v-for="post in posts">
-            </br> 
-            <p><b>@{{ post.user_id }}</b></p>
-            <p>@{{ post.text }}</p>
-            <a :href="/post/ + post.id">View Comments</a>
-            </br> 
+            <div class="bg-white shadow rounded p-2">
+                <div class="relative">
+                    <p class="aboslute font-semibold">@{{ post.name }}</p>
+                    <p class="absolute top-0 right-0 text-xs">@{{ post.date_posted }}</p>
+                </div>
+                <hr class="p-1"/>  
+                <p>@{{ post.text }}</p>
+                <div v-if="post.image_path" class="py-2">
+                    <img :src="'{{ route('api.images.specific', '') }}/' + post.image_path" alt="" class="shadow rounded"/>
+                </div>
+                <hr class="py-1"/>
+                <div class="relative py-1">
+                <a class="bg-white border-solid border-gray-500 border shadow rounded px-3 py-1 text-xs" :href="/post/ + post.id">View Comments</a>
+                </div>
+            </div>
+            <hr class="p-1"/>
         </li> </ul> 
     </div>
 
@@ -35,7 +54,8 @@
             methods: {
                 createPost:function() {
                     let formData = new FormData();
-
+                    
+                    formData.append('user_id', {{ Auth::id() }});
                     formData.append('text', this.newPostText);
 
                     if (this.newPostImage) {
